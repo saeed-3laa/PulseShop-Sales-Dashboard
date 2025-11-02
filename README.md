@@ -72,16 +72,16 @@ The dashboard features four pages for a comprehensive view:
 Replace placeholders with actual image paths (e.g., `images/screenshot1.png`) when uploading to GitHub.
 
 ### 1. Overview Page
-![Overview - KPIs, Sales Trends, Profit Margin](page1.png)
+![Overview - KPIs, Sales Trends, Profit Margin](Page1.png)
 
 ### 2. Trends Analysis Page
-![Trends - Sales Rep Performance, Hourly/Daily Sales](page2.png)
+![Trends - Sales Rep Performance, Hourly/Daily Sales](Page2.png)
 
 ### 3. Performance Details Page
-![Performance - Top Products/Regions, Category Breakdown](page3.png)
+![Performance - Top Products/Regions, Category Breakdown](Page3.png)
 
 ### 4. Insights & Recommendations Page
-![Insights - Key Findings, Strategies](page4.png)
+![Insights - Key Findings, Strategies](Page4.png)
 
 ## Key Insights
 - **Time Trends**: Peak sales at Hour 16 ($189K); Night contributes $1.26M; Thursday highest day ($0.59M), Monday lowest ($0.45M).
@@ -112,6 +112,7 @@ Replace placeholders with actual image paths (e.g., `images/screenshot1.png`) wh
 - **Visuals**: Cards, Line Charts, Bar Charts, Funnel Charts, Pie Charts, Stacked Bars
 - **Features**: Bookmarks, Parameters, Star Schema Modeling
 - **Design**: Consistent gray/yellow palette; page navigation for UX.
+
 
 
 
