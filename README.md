@@ -1,9 +1,13 @@
 # PulseShop Sales Analysis Dashboard
 
 ## Overview
-This Power BI dashboard provides an interactive analysis of PulseShop's sales data from October 2022 to October 2024. It delivers actionable insights into sales performance, product categories, regional trends, and sales representative contributions, enabling data-driven decision-making. The project includes data preparation, transformation, modeling, DAX calculations, and four dashboard pages: Overview, Trends Analysis, Performance Details, and Insights & Recommendations. Key features include a dynamic date slicer with a bookmark, a parameter for toggling sales and profit visuals, and a dedicated Insights & Recommendations page with strategies to boost sales performance.
+This Power BI dashboard provides an interactive analysis of PulseShop's sales data from October 2022 to October 2024. It delivers actionable insights into sales performance, product categories, regional trends, and sales representative contributions, enabling data-driven decision-making. 
 
-Key Highlights:
+The project includes data preparation, transformation, star schema modeling, DAX calculations, and four main dashboard pages: **Overview**, **Trends Analysis**, **Performance Details**, and **Insights & Recommendations**.
+
+Key features include a dynamic date slicer with bookmark navigation and a flexible parameter for toggling between Sales and Profit visuals.
+
+### Key Highlights
 - **Total Sales**: $3.81M
 - **Total Quantity Sold**: 10.82K
 - **Total Profit**: $808,670
@@ -12,107 +16,98 @@ Key Highlights:
 - **YoY Sales Growth**: -1.07%
 - **Return Rate**: 19.45%
 
-The dashboard is fully interactive, with slicers for dates, products, regions, and sales reps, supporting filters by year, month, time of day, and more.
+The dashboard is fully interactive with slicers for Date, Product Category, Region, Sales Rep, and Time of Day.
 
-## Data Source
-- **Dataset**: PulseShop sales.xlsx (transactional and dimensional data covering ~thousands of records).
-- **Key Columns**: Order ID, Date, Product ID, Region ID, Sales Rep ID, Total Sales, Profit, Quantity Sold, Returns Sales, Product Category, Region Name, Sales Rep Name.
-- **Data Prep**: Imported via Excel connector; transformed in Power Query to split into Fact_Orders (transactions) and Dim tables (Date, Products, Regions, Sales Reps); created Dim_Date (Year, Month, Quarter, Week, Day) and Dim_Date_Time (Hour, Time of Day: Morning/Afternoon/Evening/Night).
-- **Modeling**: Star schema with relationships on Order ID, Date, Product ID, Region ID, Sales Rep ID for optimal performance.
-- **Sample Data Structure** (aggregated view):
-  | Metric | Value | Description |
-  |--------|-------|-------------|
-  | Total Sales | $3.81M | SUM(Fact_Orders[Total_Sales]) |
-  | Total Profit | $808K | SUM(Fact_Orders[Profit]) |
-  | #Orders | Varies | COUNTROWS(Fact_Orders) |
-  | Peak Hour | Hour 16 ($189K) | Hourly sales distribution |
+## Data Preparation & Modeling
 
-- **Total Records**: Thousands of orders; cleaned for consistency (e.g., date format conversion).
+- Imported and cleaned the raw data using **Power Query**.
+- Split the data into one central **Fact_Orders** table and multiple **Dimension tables**.
+- Built a clean **Star Schema** model optimized for performance and DAX calculations.
+
+![PulseShop Data Model - Star Schema](images/data_modeling.png)
+
+*Figure: Star Schema relationships between Fact_Orders and Dimension tables.*
+
+## Key Features
+
+### 1. Dynamic Date Slicer with Bookmark
+
+The dashboard features an advanced **Date Slicer** supporting filtering by:
+- Year, Month, and Day
+- Time of Day (Morning, Afternoon, Evening, Night)
+
+Users can quickly reset to the default view using the dedicated **Bookmark** (Back button with calendar icon).
+
+![Dynamic Date Slicer with Bookmark](images/bookmark_date_slicer.png)
+
+### 2. Parameter for Sales & Profit Toggle
+
+A dynamic parameter enables users to seamlessly switch between **Total Sales** and **Total Profit** views in the trend charts. This provides greater flexibility for different types of analysis.
+
+![Sales & Profit Toggle Parameter](images/parameter.png)
 
 ## DAX Measures
-Custom DAX measures power dynamic calculations:
-- **#Customers**: DISTINCTCOUNT(Customers[Customer_ID])
-- **#Orders**: COUNTROWS(Fact_Orders)
-- **#Products**: DISTINCTCOUNT(Products[Product_ID])
-- **Average_Order_Size**: DIVIDE([Total_Sales], SUM(Fact_Orders[Quantity_Sold]), 0)
-- **MoM_Sales_Growth**: Month-over-month growth percentage
-- **Profit_Margin**: DIVIDE(SUM(Fact_Orders[Profit]), SUM(Fact_Orders[Total_Sales]), 0)
-- **Return_Rate**: DIVIDE(SUM(Fact_Orders[Returns_Sales]), SUM(Fact_Orders[Total_Sales]), 0)
-- **Total_Profit**: SUM(Fact_Orders[Profit])
-- **Total_Quantity**: SUM(Fact_Orders[Quantity_Sold])
-- **Total_Sales**: SUM(Fact_Orders[Total_Sales])
-- **Variance_Period_MoM**: Current vs. previous month variance
-- **Variance_Period_YoY**: Current vs. previous year variance
-- **YoY_Sales_Growth**: Year-over-year growth
 
-These ensure accurate, real-time insights across visuals.
+Custom DAX measures were created to power dynamic calculations across the dashboard:
+
+- **Total_Sales** = SUM(Fact_Orders[Total_Sales])
+- **Total_Profit** = SUM(Fact_Orders[Profit])
+- **#Orders** = COUNTROWS(Fact_Orders)
+- **#Customers** = DISTINCTCOUNT(Customers[Customer_ID])
+- **Average_Order_Size** = DIVIDE([Total_Sales], [Total_Quantity], 0)
+- **Return_Rate** = DIVIDE(SUM(Fact_Orders[Returns_Sales]), [Total_Sales], 0)
+- **MoM_Sales_Growth** = Month-over-month growth percentage
+- **YoY_Sales_Growth** = Year-over-year growth percentage
+- **Profit_Margin** = DIVIDE([Total_Profit], [Total_Sales], 0)
 
 ## Dashboard Structure
-The dashboard features four pages for a comprehensive view:
+
+The dashboard consists of four pages:
 
 ### 1. Overview
-- **Purpose**: High-level KPIs and sales summary.
-- **Content**: KPI cards (Total Sales, Quantity, Profit, Average Order Size, Growth Rates, Return Rate); slicers (Date, Product Category, Region, Sales Rep, Year, Month, Time of Day).
-- **Visuals**: Line charts for monthly/yearly sales trends (with MoM on secondary axis) and profit margin trends.
+High-level KPIs, cards, and trend charts for sales and profit with MoM comparison.
 
 ### 2. Trends Analysis
-- **Purpose**: Time-based trends (hourly, daily, sales rep performance).
-- **Content**: Ranked table for top sales reps (e.g., Cristian Popescu, Iulia Ionescu); line chart for hourly sales (peaks at Hour 4: $183K, Hour 16: $189K, Hour 22: $182K); bar charts for sales by time of day (Night: $1.26M) and day of week (Thursday: $0.59M).
-- **Feature**: Parameter to toggle Total Sales/Profit visuals by Year, Month, or both (defaults to combined).
+Time-based analysis including hourly sales, day of week performance, and top sales representatives.
 
 ### 3. Performance Details
-- **Purpose**: Breakdown by products, regions, customers, reps.
-- **Content**: Cards (#Orders, #Products, #Customers, #Regions); funnel charts for top 2 products (Televisions, Air Fryer) and regions (Brăila, Târgu Mureș); stacked bar for sales vs. returns by region; pie chart for sales by category (Electronics: 60.06%).
+Detailed breakdown by products, regions, categories, and customers with funnel and pie charts.
 
 ### 4. Insights & Recommendations
-- **Purpose**: Key findings and strategies.
-- **Content**: Actionable insights (e.g., peak hours, Electronics dominance, Thursday peaks); recommendations (e.g., promotions in peak hours for 15% uplift, Thursday campaigns for 10% boost, promote high-margin products like Televisions).
+Key business insights and actionable recommendations to improve sales performance.
 
 ## Dashboard Screenshots
-Replace placeholders with actual image paths (e.g., `images/screenshot1.png`) when uploading to GitHub.
 
 ### 1. Overview Page
-![Overview - KPIs, Sales Trends, Profit Margin](Page1.png)
+![Overview Page - KPIs and Trends](images/screenshot1.png)
 
 ### 2. Trends Analysis Page
-![Trends - Sales Rep Performance, Hourly/Daily Sales](Page2.png)
+![Trends Analysis - Hourly & Sales Rep Performance](images/screenshot2.png)
 
 ### 3. Performance Details Page
-![Performance - Top Products/Regions, Category Breakdown](Page3.png)
+![Performance Details - Products & Regions](images/screenshot3.png)
 
 ### 4. Insights & Recommendations Page
-![Insights - Key Findings, Strategies](Page4.png)
+![Insights & Recommendations](images/screenshot4.png)
 
 ## Key Insights
-- **Time Trends**: Peak sales at Hour 16 ($189K); Night contributes $1.26M; Thursday highest day ($0.59M), Monday lowest ($0.45M).
-- **Products**: Electronics drives 60.06% revenue; top performers: Televisions, Air Fryer.
-- **Regions**: Brăila and Târgu Mureș lead sales; analyze returns for shipping optimization.
-- **Sales Reps**: Cristian Popescu, Iulia Ionescu, Alina Georgescu as top contributors.
-- **Recommendations**: Flash sales in peak hours (projected +15%, $28K/hour); loyalty campaigns on Thursdays (+10%, $59K); bundle high-profit products.
+- Peak sales occur at **Hour 16** ($189K), with **Night** period contributing the highest revenue ($1.26M).
+- **Thursday** is the strongest day of the week ($0.59M).
+- **Electronics** category dominates with **60.06%** of total revenue.
+- Top performing products: Televisions and Air Fryer.
+- Leading regions: Brăila and Târgu Mureș.
+- Top sales representatives: Cristian Popescu, Iulia Ionescu, and Alina Georgescu.
 
 ## How to Run
-1. **Prerequisites**: Install Power BI Desktop (free from Microsoft).
-2. **Load Data**:
-   - Open Power BI Desktop.
-   - Get Data > Excel > Select "PulseShop sales.xlsx".
-   - Apply Power Query transformations (date conversion, table splitting).
-3. **Import Dashboard**:
-   - Open "PulseShop_Dashboard.pbix".
-   - Use the date slicer bookmark (click calendar icon to toggle).
-   - Toggle parameters for sales/profit views.
-4. **Explore**:
-   - Filter via slicers; navigate pages with buttons.
-   - Refresh for updates.
-5. **Publish (Optional)**: Publish to Power BI Service for sharing.
+1. Install **Power BI Desktop** (Free).
+2. Open the `.pbix` file.
+3. Load or refresh the data from `PulseShop sales.xlsx`.
+4. Use the slicers and bookmark to explore the interactive dashboard.
 
 ## Tech Stack
 - **Tool**: Power BI Desktop
-- **Data**: Excel (.xlsx)
-- **Measures**: DAX (e.g., Total Sales = SUM(Fact_Orders[Total_Sales]))
-- **Visuals**: Cards, Line Charts, Bar Charts, Funnel Charts, Pie Charts, Stacked Bars
-- **Features**: Bookmarks, Parameters, Star Schema Modeling
-- **Design**: Consistent gray/yellow palette; page navigation for UX.
-
-
-
+- **Data Source**: Excel (.xlsx)
+- **Modeling**: Star Schema
+- **Language**: DAX
+- **Features**: Bookmarks, Field Parameters, Interactive Slicers
 
