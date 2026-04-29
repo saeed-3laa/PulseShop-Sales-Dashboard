@@ -97,7 +97,32 @@ Key business insights and actionable recommendations to improve sales performanc
 - Top performing products: Televisions and Air Fryer.
 - Leading regions: Brăila and Târgu Mureș.
 - Top sales representatives: Cristian Popescu, Iulia Ionescu, and Alina Georgescu.
+## Documentation
 
+### 1. User Guide
+Detailed step-by-step instructions on how to open, navigate, and use the PulseShop Sales Analysis Dashboard, including how to use the Date Slicer, Parameter, and update the data.
+
+**[Download User Guide (PDF)](User_Guide.pdf)**
+
+### 2. Project Report
+Comprehensive technical report covering:
+- Executive Summary
+- Data Preparation & Transformation
+- Star Schema Modeling
+- DAX Measures
+- Dashboard Structure & Design
+- Additional Features (Bookmark + Parameter)
+- Insights & Recommendations
+
+**[Download Full Project Report (PDF)](Report%20for%20PulseShop.pdf)**
+
+---
+
+## Attachments
+- `PulseShop_Dashboard.pbix` → The main Power BI file
+- `PulseShop sales.xlsx` → Source data file
+- `User_Guide.pdf`
+- `Report for PulseShop.pdf`
 ## How to Run
 1. Install **Power BI Desktop** (Free).
 2. Open the `.pbix` file.
